@@ -159,3 +159,9 @@ th {
 tr:nth-child(even) {
     background-color: #dddddd;
 }
+
+.error-text {
+    margin:auto;
+    text-align: center;
+    color: rgba(255, 0, 0, 0.7);
+  }

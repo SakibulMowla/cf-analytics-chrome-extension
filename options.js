@@ -51,10 +51,10 @@ function addImage(src) {
     return img;
 }
 
-handleSubmit.onclick = function constructProfile() {
+handleSubmit.onclick = function constructProfile(e) {
+    e.preventDefault();
     const rootNode = document.getElementById('profileDiv');
     clearNode(rootNode);
-
     const handle = handleEntry.value;
     populateBasicInfo(rootNode, handle);
     populateSubmissionInfo(rootNode, handle);
@@ -100,6 +100,13 @@ function populateSubmissionInfo(rootNode, handle) {
                         createString('&count=', chunkSize), true);
         xhr.send();
         xhr.onreadystatechange = () => {
+            if(xhr.readyState===STATE.DONE && xhr.status === STATUS.UNSENT){
+                const noUserDiv= constructDiv('NO USER FOUND !');
+                noUserDiv.className += 'error-text';
+                rootNode.appendChild(noUserDiv);
+                return;
+            }
+
             if (xhr.readyState === STATE.DONE && xhr.status === STATUS.DONE) {
                 const jsonObj = JSON.parse(xhr.response);
                 if (jsonObj.result.length === 0) {
